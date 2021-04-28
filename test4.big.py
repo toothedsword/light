@@ -33,7 +33,8 @@ while t <= t1:
     tclon1 = np.interp(t, tctime, tclon)
     tclat1 = np.interp(t, tctime, tclat)
 
-    figname = './fig/' + tcfile + '_' + ft + '_' +\
+    os.system('mkdir -p ./fig/' + ft + '/')
+    figname = './fig/' + ft + '/' + tcfile + '_' + ft + '_' +\
         htt.time2str(t, 'yyyymmdd_HHMMSS') + '.png'
     if re.search('big', figname):
         latlim = [-20+tclat1, 20+tclat1]
