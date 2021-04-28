@@ -46,9 +46,9 @@ def num2rgb(num, ccc, rg):
 
 
 def get_tb3(dtime, lonlim, latlim, addlight=True,
-            lat_fy4a='/home/leon/data/ADS_TCPIE/ADS_QPE/data/source/lut4k_1.tif',
-            lon_fy4a='/home/leon/data/ADS_TCPIE/ADS_QPE/data/source/lut4k_2.tif',
-            file_re_path='/home/leon/data/FY4A_new/AGRI/L1/FDI/DISK/yyyy/yyyymmdd/'+
+            lat_fy4a='./lut4k_1.tif',
+            lon_fy4a='./lut4k_2.tif',
+            file_re_path='./AGRI/L1/FDI/DISK/yyyy/yyyymmdd/'+
             'FY4A-_AGRI--_N_DISK_1047E_L1-_FDI-_MULT_NOM_yyyymmddHHMMSS_*_4000M_V0001.HDF',
             filepath=-1):
 
@@ -91,11 +91,9 @@ def get_tb3(dtime, lonlim, latlim, addlight=True,
     # imshow
     # {{{
     if re.search('str', str(type(lat_fy4a))):
-        lat_fy4a = gdal.Open(
-            '/home/leon/data/ADS_TCPIE/ADS_QPE/data/source/lut4k_1.tif').\
+        lat_fy4a = gdal.Open(lat_fy4a).\
             ReadAsArray(0, 0, 2748, 2748)  # 纬度数据
-        lon_fy4a = gdal.Open(
-            '/home/leon/data/ADS_TCPIE/ADS_QPE/data/source/lut4k_2.tif').\
+        lon_fy4a = gdal.Open(lon_fy4a).\
             ReadAsArray(0, 0, 2748, 2748)  # 经度数据
 
     lat_gd = np.linspace(latlim[0], latlim[1], num=2000)  # (latlim[1]-latlim[0])*200)

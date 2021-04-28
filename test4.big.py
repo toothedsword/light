@@ -46,7 +46,7 @@ while t <= t1:
     print(htt.time2str(t, 'yyyymmdd_HHMMSS'))
     gc.collect()
     if os.path.exists(figname):
-        t = t+1*3600
+        t = t+15*60
         continue
 
     try:
@@ -73,5 +73,5 @@ while t <= t1:
     except:
         pass
 
-    t = t+1*3600
+    t = t+15*60
     # }}}
