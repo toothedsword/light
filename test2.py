@@ -97,21 +97,17 @@ sn = 200
 time_start = time.time()
 id = np.where((tb > 0) & (lon_fy4a > -190) & (lat_fy4a > -100))
 if False:
-    tb_gd = griddata.simple(sn, lon_fy4a[id], lat_fy4a[id],
-                            tb[id], lon_gd, lat_gd)
+    tb2 = griddata.simple(sn, lat_fy4a[id], lon_fy4a[id],
+                            tb[id], lat_gd, lon_gd)
 else:
-    tb_gd = griddata.stb(sn, np.flip(lon_fy4a.T, 1),
-                         np.flip(lat_fy4a.T, 1),
-                         np.flip(tb.T, 1), lon_gd, lat_gd)
+    tb2 = griddata.stb(sn, np.flip(lat_fy4a, 0),
+                         np.flip(lon_fy4a, 0),
+                         np.flip(tb, 0), lat_gd, lon_gd)
 time_end = time.time()
 print('time cost', time_end - time_start, 's')
-tb_gd2 = tb_gd
-tb_gd2[np.where(tb_gd2 < 10)] = np.nan
-tb_gd2[np.where(tb_gd2 < 100)] = 100
-tb_gd2[np.where(tb_gd2 > 330)] = 330
-
-tb2 = tb_gd2.transpose()
-
+tb2[np.where(tb2 < 10)] = np.nan
+tb2[np.where(tb2 < 100)] = 100
+tb2[np.where(tb2 > 330)] = 330
 
 ccc = np.array(
     [[1, 0, 0], [1, 1, 0], [0, 1, 0], [0, 1, 1], [0, 0, 1], [1, 0, 1]
@@ -126,7 +122,6 @@ ax = fig.add_subplot(1, 2, 1)
 ax.imshow(np.flip(tb3, 0), extent=(lonlim[0], lonlim[1], latlim[0], latlim[1]))
 plt.title('griddata.simple')
 # }}}
-
 
 
 # light
@@ -152,7 +147,7 @@ if True:
     tb3[:, :, 1] = tb3[:, :, 1]*lt
     tb3[:, :, 2] = tb3[:, :, 2]*lt
 
-f=ax.imshow(np.flip(tb3, 0), cmap='jet', extent=(lonlim[0], lonlim[1], latlim[0], latlim[1]))
+f = ax.imshow(np.flip(tb3, 0), cmap='jet', extent=(lonlim[0], lonlim[1], latlim[0], latlim[1]))
 plt.title('griddata.light')
 # plt.colorbar(f)
 # fig.savefig('test.png', dpi=600)
@@ -160,7 +155,7 @@ plt.title('griddata.light')
 
 if False:
     ax = fig.add_subplot(2, 2, 3)
-    f = ax.pcolor(lon2, lat2, tb_gd2.T)
+    f = ax.pcolor(lon2, lat2, tb_gd2)
     plt.colorbar(f)
 
 plt.show()

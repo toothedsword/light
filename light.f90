@@ -16,29 +16,30 @@ subroutine simple ( nx, ny, x, y, z, l, r) ! {{{
 
     integer ( kind = 4 ), intent(in):: nx, ny
 
-    real ( kind = 8 ), intent(in):: x(nx, ny), y(nx, ny), z(nx, ny), l(3)
-    real ( kind = 8 ), intent(out):: r(nx, ny)
+    real ( kind = 8 ), intent(in):: x(ny, nx), y(ny, nx), z(ny, nx), l(3)
+    real ( kind = 8 ), intent(out):: r(ny, nx)
     
     integer ( kind = 4 ) ix, iy
     real ( kind = 8 )  x1, x2, y1, y2, z1, z2, xn, yn, zn, xr, yr, zr, m
 
-    do iy = 1, ny-1
-        do ix = 1, nx-1
-            x1 = x(ix, iy+1)-x(ix, iy)
-            y1 = y(ix, iy+1)-y(ix, iy)
-            z1 = z(ix, iy+1)-z(ix, iy)
+    do ix = 1, nx-1
+        do iy = 1, ny-1
+            x1 = x(iy, ix+1)-x(iy, ix)
+            y1 = y(iy, ix+1)-y(iy, ix)
+            z1 = z(iy, ix+1)-z(iy, ix)
 
-            x2 = x(ix+1, iy)-x(ix, iy)
-            y2 = y(ix+1, iy)-y(ix, iy)
-            z2 = z(ix+1, iy)-z(ix, iy)
+            x2 = x(iy+1, ix)-x(iy, ix)
+            y2 = y(iy+1, ix)-y(iy, ix)
+            z2 = z(iy+1, ix)-z(iy, ix)
 
             xn = y1*z2-y2*z1
             yn = z1*x2-z2*x1
             zn = x1*y2-x2*y1
+            write(*,*)x1*y2, x2*y1, x1*y2-x2*y1
             m = sqrt(xn**2+yn**2+zn**2)
             xn = xn/m
             yn = yn/m
-            zn = zn/m
+            ! zn = zn/m
 
             xr = l(1)
             yr = l(2)
@@ -48,13 +49,13 @@ subroutine simple ( nx, ny, x, y, z, l, r) ! {{{
             yr = yr/m
             zr = zr/m
 
-            r(ix, iy) = xr*xn+yr*yn+zr*zn
+            r(iy, ix) = zn  ! xr*xn+yr*yn+zr*zn
 
         enddo
-        r(nx, iy) = r(nx-1, iy)
+        r(ny, ix) = r(ny-1, ix)
     enddo
-    do ix = 1, nx
-        r(ix, ny) = r(ix, ny-1)
+    do iy = 1, ny
+        r(iy, nx) = r(iy, nx-1)
     enddo
 
 end subroutine simple ! }}}
@@ -76,73 +77,77 @@ subroutine point ( nx, ny, x, y, z, l, r) ! {{{
     implicit none
 
     integer ( kind = 4 ), intent(in):: nx, ny
-    real ( kind = 8 ), intent(in):: x(nx, ny), y(nx, ny), z(nx, ny), l(3)
-    real ( kind = 8 ), intent(out):: r(nx, ny)
+    real ( kind = 8 ), intent(in):: x(ny, nx), y(ny, nx), z(ny, nx), l(3)
+    real ( kind = 8 ), intent(out):: r(ny, nx)
     
     integer ( kind = 4 ) ix, iy, iq
-    real ( kind = 8 )  x1, x2, y1, y2, z1, z2, xn, yn, zn, xr, yr, zr, m
+    real ( kind = 8 )  x1, x2, y1, y2, z1, z2, xn, yn, zn, xr, yr, zr, m, rn, ri
 
-    do iy = 1, ny-1
-        do ix = 1, nx-1
-            r(ix, iy) = 0
-            do iq = 1, 4
-                if (iq .eq. 1) then
-                    x1 = x(ix, iy+1)-x(ix, iy)
-                    y1 = y(ix, iy+1)-y(ix, iy)
-                    z1 = z(ix, iy+1)-z(ix, iy)
-                    x2 = x(ix+1, iy)-x(ix, iy)
-                    y2 = y(ix+1, iy)-y(ix, iy)
-                    z2 = z(ix+1, iy)-z(ix, iy)
-                endif
-                if (iq .eq. 2) then
-                    x1 = x(ix+1, iy)-x(ix, iy)
-                    y1 = y(ix+1, iy)-y(ix, iy)
-                    z1 = z(ix+1, iy)-z(ix, iy)
-                    x2 = x(ix, iy-1)-x(ix, iy)
-                    y2 = y(ix, iy-1)-y(ix, iy)
-                    z2 = z(ix, iy-1)-z(ix, iy)
-                endif
-                if (iq .eq. 3) then
-                    x1 = x(ix, iy-1)-x(ix, iy)
-                    y1 = y(ix, iy-1)-y(ix, iy)
-                    z1 = z(ix, iy-1)-z(ix, iy)
-                    x2 = x(ix-1, iy)-x(ix, iy)
-                    y2 = y(ix-1, iy)-y(ix, iy)
-                    z2 = z(ix-1, iy)-z(ix, iy)
-                endif
-                if (iq .eq. 4) then
-                    x1 = x(ix-1, iy)-x(ix, iy)
-                    y1 = y(ix-1, iy)-y(ix, iy)
-                    z1 = z(ix-1, iy)-z(ix, iy)
-                    x2 = x(ix, iy+1)-x(ix, iy)
-                    y2 = y(ix, iy+1)-y(ix, iy)
-                    z2 = z(ix, iy+1)-z(ix, iy)
-                endif
-
-                xn = y1*z2-y2*z1
-                yn = z1*x2-z2*x1
-                zn = x1*y2-x2*y1
-                m = sqrt(xn**2+yn**2+zn**2)
-                xn = xn/m
-                yn = yn/m
-                zn = zn/m
-
-                xr = l(1)
-                yr = l(2)
-                zr = l(3)
-                m = sqrt(xr**2+yr**2+zr**2)
-                xr = xr/m
-                yr = yr/m
-                zr = zr/m
-
-                r(ix, iy) = r(ix, iy)+xr*xn+yr*yn+zr*zn
-            enddo
-            r(ix, iy) = r(ix, iy)/4
-        enddo
-        r(nx, iy) = r(nx-1, iy)
-    enddo
     do ix = 1, nx
-        r(ix, ny) = r(ix, ny-1)
+        do iy = 1, ny
+            r(iy, ix) = 0
+            rn = 0
+            do iq = 1, 4
+                ri = 0
+                if (iq .eq. 1 .and. ix < nx .and. iy < ny) then
+                    x1 = x(iy, ix+1)-x(iy, ix)
+                    y1 = y(iy, ix+1)-y(iy, ix)
+                    z1 = z(iy, ix+1)-z(iy, ix)
+                    x2 = x(iy+1, ix)-x(iy, ix)
+                    y2 = y(iy+1, ix)-y(iy, ix)
+                    z2 = z(iy+1, ix)-z(iy, ix)
+                    ri = 1
+                endif
+                if (iq .eq. 2 .and. ix > 1 .and. iy < ny) then
+                    x1 = x(iy+1, ix)-x(iy, ix)
+                    y1 = y(iy+1, ix)-y(iy, ix)
+                    z1 = z(iy+1, ix)-z(iy, ix)
+                    x2 = x(iy, ix-1)-x(iy, ix)
+                    y2 = y(iy, ix-1)-y(iy, ix)
+                    z2 = z(iy, ix-1)-z(iy, ix)
+                    ri = 1
+                endif
+                if (iq .eq. 3 .and. ix > 1 .and. iy > 1) then
+                    x1 = x(iy, ix-1)-x(iy, ix)
+                    y1 = y(iy, ix-1)-y(iy, ix)
+                    z1 = z(iy, ix-1)-z(iy, ix)
+                    x2 = x(iy-1, ix)-x(iy, ix)
+                    y2 = y(iy-1, ix)-y(iy, ix)
+                    z2 = z(iy-1, ix)-z(iy, ix)
+                    ri = 1
+                endif
+                if (iq .eq. 4 .and. ix < nx .and. iy > 1) then
+                    x1 = x(iy-1, ix)-x(iy, ix)
+                    y1 = y(iy-1, ix)-y(iy, ix)
+                    z1 = z(iy-1, ix)-z(iy, ix)
+                    x2 = x(iy, ix+1)-x(iy, ix)
+                    y2 = y(iy, ix+1)-y(iy, ix)
+                    z2 = z(iy, ix+1)-z(iy, ix)
+                    ri = 1
+                endif
+
+                if (ri > 0) then
+                    xn = y1*z2-y2*z1
+                    yn = z1*x2-z2*x1
+                    zn = x1*y2-x2*y1
+                    m = sqrt(xn**2+yn**2+zn**2)
+                    xn = xn/m
+                    yn = yn/m
+                    zn = zn/m
+
+                    xr = l(1)
+                    yr = l(2)
+                    zr = l(3)
+                    m = sqrt(xr**2+yr**2+zr**2)
+                    xr = xr/m
+                    yr = yr/m
+                    zr = zr/m
+                    r(iy, ix) = r(iy, ix)+xr*xn+yr*yn+zr*zn
+                    rn = rn+1
+                endif
+            enddo
+            r(iy, ix) = r(iy, ix)/rn
+        enddo
     enddo
 
 end subroutine point ! }}}
