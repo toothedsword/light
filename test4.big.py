@@ -22,8 +22,8 @@ tctime = tclon*0
 for i in range(0, tclon.size):
     tctime[i] = htt.vec2time(tc[i, 0], tc[i, 1], tc[i, 2], tc[i, 3], 0, 0)
 
-t = htt.str2time('20200902000000', 'yyyymmddHHMMSS')-3600
-t1 = htt.str2time('20200908000000', 'yyyymmddHHMMSS')
+t = htt.str2time('20200830120000', 'yyyymmddHHMMSS')
+t1 = htt.str2time('20200910060000', 'yyyymmddHHMMSS')
 
 while t <= t1:
 
