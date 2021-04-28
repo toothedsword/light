@@ -27,4 +27,5 @@ use PDL;
 use PDL::NiceSlice;
 
 system("python3 -m numpy.f2py -c light.f90 -m light");
+system("python3 -m numpy.f2py -c griddata.f90 -m griddata");
 
