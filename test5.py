@@ -73,8 +73,11 @@ while t <= t1:
             ax, cmap=ccc, norm=mpl.colors.Normalize(vmin=-110, vmax=50))
         fig.savefig(figname, dpi=200)
         fig.close()
-    except:
-        pass
+
+    except Exception as ex:
+        print(ex)
+    else:
+        print('succeed')
 
     t = t+15*60
     # }}}
