@@ -37,6 +37,8 @@ while t <= t1:
     os.system('mkdir -p ./fig/' + ft + '/')
     figname = './fig/' + ft + '/' + tcfile + '_' + ft + '_' +\
         htt.time2str(t, 'yyyymmdd_HHMMSS') + '.png'
+    print('----------------------------------')
+    print(figname)
     if re.search('big', figname):
         latlim = [-20+tclat1, 20+tclat1]
         lonlim = [-20+tclon1, 20+tclon1]

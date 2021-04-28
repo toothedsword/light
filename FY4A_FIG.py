@@ -53,6 +53,7 @@ def get_tb3(dtime, lonlim, latlim, addlight=True,
             filepath=-1):
 
     # get ccc
+    print('ccc')
     # {{{
     rgb = ((0.2, 0.2, 0), (1, 1, 0), (0.5, 0, 0.5), (1, 0, 1), (1, 0.7, 1),
         (1, 1, 1), (0, 0, 0), (1, 0, 0),
@@ -68,12 +69,14 @@ def get_tb3(dtime, lonlim, latlim, addlight=True,
 
 
     # read in data
+    print('read')
     # {{{
 
     if re.search('str', str(type(filepath))):
         pass
     else:
         filepath = htt.time2str(dtime, file_re_path, num=3)
+        print(filepath)
         filepath = glob.glob(filepath)
         filepath = filepath[0]
 
@@ -88,7 +91,8 @@ def get_tb3(dtime, lonlim, latlim, addlight=True,
     # }}}
 
 
-    # imshow
+    # griddata
+    print('griddata')
     # {{{
     if re.search('str', str(type(lat_fy4a))):
         lat_fy4a = gdal.Open(lat_fy4a).\
@@ -123,6 +127,7 @@ def get_tb3(dtime, lonlim, latlim, addlight=True,
 
 
     # light
+    print('light')
     # {{{
     lon2, lat2 = np.meshgrid(lon_gd, lat_gd)
     tb4 = -1
