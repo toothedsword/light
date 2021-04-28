@@ -7,7 +7,12 @@ import matplotlib as mpl
 import FY4A_FIG
 import time_htht as htt
 import os
+import gc
+import re
+import sys
 
+
+ft = sys.argv[1]
 cll = np.loadtxt('china+coast.txt')
 tcfile = './haishen.dat'
 tc = np.loadtxt(tcfile)
@@ -22,16 +27,24 @@ t1 = htt.str2time('20200908000000', 'yyyymmddHHMMSS')
 
 while t <= t1:
 
-   # grid figure
-   # {{{
+    # grid figure
+    # {{{
 
     tclon1 = np.interp(t, tctime, tclon)
     tclat1 = np.interp(t, tctime, tclat)
 
-    latlim = [-10+tclat1, 10+tclat1]
-    lonlim = [-10+tclon1, 10+tclon1]
+    figname = tcfile+'_'+ft+'_'+htt.time2str(t, 'yyyymmdd_HHMMSS')+'.png'
+    if re.search('big', figname):
+        latlim = [-20+tclat1, 20+tclat1]
+        lonlim = [-20+tclon1, 20+tclon1]
+    if re.search('mid', figname):
+        latlim = [-15+tclat1, 15+tclat1]
+        lonlim = [-15+tclon1, 15+tclon1]
+    if re.search('small', figname):
+        latlim = [-10+tclat1, 10+tclat1]
+        lonlim = [-10+tclon1, 10+tclon1]
     print(htt.time2str(t, 'yyyymmdd_HHMMSS'))
-    figname = tcfile+'_small_'+htt.time2str(t, 'yyyymmdd_HHMMSS')+'.png'
+    gc.collect()
     if os.path.exists(figname):
         t = t+1*3600
         continue

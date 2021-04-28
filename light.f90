@@ -70,9 +70,10 @@ subroutine point ( nx, ny, x, y, z, l, r) ! {{{
     ! x, input x
     ! y, input y
     ! z, input z
+    ! l, light position
 
     ! Output
-    ! l, output lighting (normal in each point)
+    ! r, output lighting (normal_in_each_point x l)
     
     implicit none
 
