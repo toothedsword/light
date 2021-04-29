@@ -64,8 +64,8 @@ while t <= t1:
             np.flip(tb4, 0), cmap=ccc,
             extent=(lonlim[0], lonlim[1], latlim[0], latlim[1]))
         plt.title(htt.time2str(t, 'yyyy/mm/dd HH:MM:SS'))
-        ax.plot(tclon, tclat, 'r-+', linewidth=0.5)
-        ax.plot(tclon1, tclat1, 'g+', linewidth=0.5, markersize=20)
+        # ax.plot(tclon, tclat, 'r-+', linewidth=0.5)
+        # ax.plot(tclon1, tclat1, 'g+', linewidth=0.5, markersize=20)
         ax.set_xlim(lonlim)
         ax.set_ylim(latlim)
         ax.plot(cll[:, 0], cll[:, 1], 'k-', linewidth=0.5)
