@@ -74,7 +74,7 @@ while t <= t1:
         cbar = mpl.colorbar.ColorbarBase(
             ax, cmap=ccc, norm=mpl.colors.Normalize(vmin=-110, vmax=50))
         fig.savefig(figname, dpi=200)
-        fig.close()
+        plt.close()
 
     except Exception as ex:
         print(ex)
