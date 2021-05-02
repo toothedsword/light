@@ -40,7 +40,7 @@ for my $file (@file) {
     $i++;
     if ($i >= 10) {
         $j++;
-        my $cmd = "convert $opt $files out".sprintf("%03d",$j).".gif";
+        my $cmd = "convert $opt $files ${name}_out".sprintf("%03d",$j).".gif";
         print($cmd,"\n");
         system($cmd);
         $files = '';
@@ -49,6 +49,6 @@ for my $file (@file) {
 }
 if ($i > 0) {
     $j++;
-    system("convert $opt $files out".sprintf("%03d",$j).".gif");
+    system("convert $opt $files ${name}_out".sprintf("%03d",$j).".gif");
 }
 system("convert  out???.gif out.gif")
