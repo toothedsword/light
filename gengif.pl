@@ -24,8 +24,12 @@ use utf8;
 
 my $file = shift;
 my $opt = shift;
+my $name = shift;
 
 my @file = glob($file);
+if (!defined($name)) {
+    $name = "$file[0]-$file[-1]";
+}
 
 my $files = '';
 my $i = 0;
