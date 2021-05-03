@@ -35,8 +35,8 @@ while t <= t1:
     tclon1 = np.interp(t, tctime, tclon)
     tclat1 = np.interp(t, tctime, tclat)
 
-    os.system('mkdir -p ./fig/' + ft + '/')
-    figname = './fig/' + ft + '/' + tcfile + '_' + ft + '_' +\
+    os.system('mkdir -p ./figure/' + ft + '/')
+    figname = './figure/' + ft + '/' + tcfile + '_' + ft + '_' +\
         htt.time2str(t, 'yyyymmdd_HHMMSS')
     print('----------------------------------')
     print(figname)
