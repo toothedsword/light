@@ -51,4 +51,4 @@ if ($i > 0) {
     $j++;
     system("convert $opt $files ${name}_out".sprintf("%03d",$j).".gif");
 }
-system("convert $opt ${name}_out???.gif ".${name}_out.gif")
+system("convert $opt ${name}_out???.gif ${name}_out.gif")
