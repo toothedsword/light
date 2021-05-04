@@ -27,6 +27,9 @@ my $opt = shift;
 my $name = shift;
 
 my @file = `ls $file`;
+for my $f (@file) {
+    chomp($f);
+}
 @file = sort(@file);
 if (!defined($name)) {
     $name = "$file[0]-$file[-1]";
