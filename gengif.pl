@@ -26,7 +26,8 @@ my $file = shift;
 my $opt = shift;
 my $name = shift;
 
-my @file = glob($file);
+my @file = `ls $file`;
+@file = sort(@file);
 if (!defined($name)) {
     $name = "$file[0]-$file[-1]";
 }
