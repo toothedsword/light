@@ -46,6 +46,7 @@ for my $file (@file) {
         $j++;
         my $cmd = "convert $opt $files ${name}_out".sprintf("%03d",$j).".gif";
         print($cmd,"\n");
+        die;
         system($cmd);
         $files = '';
         $i = 0;
