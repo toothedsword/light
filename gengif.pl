@@ -35,24 +35,30 @@ if (!defined($name)) {
     $name = "$file[0]-$file[-1]";
 }
 
-my $files = '';
-my $i = 0;
-my $j = 0;
-for my $file (@file) {
-    chomp($file);
-    $files = " $files $file ";
-    $i++;
-    if ($i >= 10) {
-        $j++;
-        my $cmd = "convert $opt $files ${name}_out".sprintf("%03d",$j).".gif";
-        print($cmd,"\n");
-        system($cmd);
-        $files = '';
-        $i = 0;
+my $outname = "${name}_out".sprintf("%03d",$j).".gif";
+if (-e $outname) {
+    print("$outname exists\n");
+} else {
+    my $files = '';
+    my $i = 0;
+    my $j = 0;
+    for my $file (@file) {
+        chomp($file);
+        $files = " $files $file ";
+        $i++;
+        if ($i >= 10) {
+            $j++;
+            my $outnamei = "${name}_out".sprintf("%03d",$j).".gif";
+            my $cmd = "convert $opt $files $outnamei";
+            print($cmd,"\n");
+            system($cmd) if !(-e $outnamei);
+            $files = '';
+            $i = 0;
+        }
     }
+    if ($i > 0) {
+        $j++;
+        system("convert $opt $files ${name}_out".sprintf("%03d",$j).".gif");
+    }
+    system("convert $opt ${name}_out???.gif ${name}_out.gif")
 }
-if ($i > 0) {
-    $j++;
-    system("convert $opt $files ${name}_out".sprintf("%03d",$j).".gif");
-}
-system("convert $opt ${name}_out???.gif ${name}_out.gif")
