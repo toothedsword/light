@@ -52,7 +52,7 @@ while t <= t1:
     print(htt.time2str(t, 'yyyymmdd_HHMMSS'))
     gc.collect()
     fignames = glob.glob(figname+'*.png')
-    if len(fignames) > 1:
+    if len(fignames) > 0:
         t = t+1*60
         continue
 
