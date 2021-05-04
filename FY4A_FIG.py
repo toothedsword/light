@@ -48,25 +48,25 @@ def num2rgb(num, ccc, rg):
 def get_tb3(dtime, lonlim, latlim, addlight=True,
             lat_fy4a='./lut4k_1.tif',
             lon_fy4a='./lut4k_2.tif',
-            file_re_path='./AGRI/L1/FDI/*/yyyy/yyyymmdd/'+
-            'FY4A-_AGRI--_N_*_1047E_L1-_FDI-_MULT_NOM_yyyymmddHHMM??_*_4000M_V0001.HDF',
+            file_re_path='./AGRI/L1/FDI/*/yyyy/yyyymmdd/' +
+            'FY4A-_AGRI--_N_*_1047E_L1-_FDI-_MULT_NOM_' +
+            'yyyymmddHHMM??_*_4000M_V0001.HDF',
             filepath=-1):
 
     # get ccc
     print('ccc')
     # {{{
     rgb = ((0.2, 0.2, 0), (1, 1, 0), (0.5, 0, 0.5), (1, 0, 1), (1, 0.7, 1),
-        (1, 1, 1), (0, 0, 0), (1, 0, 0),
-        (1, 1, 0), (0, 1, 0), (0, 1, 1), (0, 0, 0))
+           (1, 1, 1), (0, 0, 0), (1, 0, 0),
+           (1, 1, 0), (0, 1, 0), (0, 1, 1), (0, 0, 0))
     ns = [40, 0, 10, 10, 0, 20, 20, 20, 20, 40, 140]
     ch8 = gen_ccc(rgb, ns)
     rgb = ((0, 0, 0), (0, 0, 1), (0.5, 0, 0.5), (1, 0, 1), (1, 0.7, 1),
-        (1, 1, 1), (0, 0, 0), (1, 0, 0),
-        (1, 1, 0), (0, 1, 0), (0, 1, 1), (0, 0, 0))
+           (1, 1, 1), (0, 0, 0), (1, 0, 0),
+           (1, 1, 0), (0, 1, 0), (0, 1, 1), (0, 0, 0))
     ns = [40, 0, 10, 10, 0, 20, 20, 20, 20, 40, 140]
-    th8 = gen_ccc(rgb, ns)
+    # th8 = gen_ccc(rgb, ns)
     # }}}
-
 
     # read in data
     print('read')
@@ -89,12 +89,11 @@ def get_tb3(dtime, lonlim, latlim, addlight=True,
     eln = f.attrs[u'End Line Number'][0]
     bpn = f.attrs[u'Begin Pixel Number'][0]
     epn = f.attrs[u'End Pixel Number'][0]
-    print('bln=',bln)
+    print('bln=', bln)
     tb = Data_Cal(NOMChannel, CALChannel)
     f.close()
     tb[np.where(tb < 50)] = np.nan
     # }}}
-
 
     # griddata
     print('griddata')
@@ -105,8 +104,10 @@ def get_tb3(dtime, lonlim, latlim, addlight=True,
         lon_fy4a = gdal.Open(lon_fy4a).\
             ReadAsArray(0, 0, 2748, 2748)  # 经度数据
 
-    lat_gd = np.linspace(latlim[0], latlim[1], num=2000)  # (latlim[1]-latlim[0])*200)
-    lon_gd = np.linspace(lonlim[0], lonlim[1], num=2500)  # (lonlim[1]-lonlim[0])*200)
+    lat_gd = np.linspace(latlim[0], latlim[1], num=2000)
+    # (latlim[1]-latlim[0])*200)
+    lon_gd = np.linspace(lonlim[0], lonlim[1], num=2500)
+    # (lonlim[1]-lonlim[0])*200)
     sn = 200
     tb0 = lon_fy4a*0-100
     tb0[bln:eln+1, bpn:epn+1] = tb
@@ -115,24 +116,23 @@ def get_tb3(dtime, lonlim, latlim, addlight=True,
     id = np.where((tb > 0) & (lon_fy4a > -190) & (lat_fy4a > -100))
     if False:
         tb2 = griddata.simple(sn, lat_fy4a[id], lon_fy4a[id],
-                                tb[id], lat_gd, lon_gd)
+                              tb[id], lat_gd, lon_gd)
     else:
         tb2 = griddata.stb(sn, np.flip(lat_fy4a, 0),
-                            np.flip(lon_fy4a, 0),
-                            np.flip(tb, 0), lat_gd, lon_gd)
+                           np.flip(lon_fy4a, 0),
+                           np.flip(tb, 0), lat_gd, lon_gd)
     tb2[np.where(tb2 < 10)] = np.nan
     tb2[np.where(tb2 < 100)] = 100
     tb2[np.where(tb2 > 330)] = 330
 
     ccc = np.array(
         [[1, 0, 0], [1, 1, 0], [0, 1, 0], [0, 1, 1], [0, 0, 1], [1, 0, 1]
-        ])
+         ])
     rg = [-110+273.15, 50+273.15]
     rg = [-110+273.15, 50+273.15]
     # rg = [190, 320]
     tb3 = num2rgb(tb2, ch8, rg)
     # }}}
-
 
     # light
     print('light')
