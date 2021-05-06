@@ -56,14 +56,13 @@ def num2rgb(num, ccc, rg):
     pass
 
 lat_fy4a = gdal.Open(
-    '/home/leon/data/ADS_TCPIE/ADS_QPE/data/source/lut4k_1.tif').\
+    './lut4k_1.tif').\
     ReadAsArray(0, 0, 2748, 2748)  # 纬度数据
 lon_fy4a = gdal.Open(
-    '/home/leon/data/ADS_TCPIE/ADS_QPE/data/source/lut4k_2.tif').\
+    './lut4k_2.tif').\
     ReadAsArray(0, 0, 2748, 2748)  # 经度数据
 
-
-filepath = '/home/leon/data/FY4A_new/AGRI/L1/FDI/DISK/2019/20190304/' + \
+filepath = './AGRI/L1/FDI/DISK/2019/20190304/' + \
     'FY4A-_AGRI--_N_DISK_1047E_L1-_FDI-_MULT_NOM_' + \
     '20190304040000_20190304041459_4000M_V0001.HDF'
 f = h5.File(filepath, 'r')
