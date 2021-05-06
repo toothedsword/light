@@ -35,7 +35,7 @@ if (!defined($name)) {
     $name = "$file[0]-$file[-1]";
 }
 
-my $outname = "${name}_out".sprintf("%03d",$j).".gif";
+my $outname = "${name}_out.gif";
 if (-e $outname) {
     print("$outname exists\n");
 } else {
