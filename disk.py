@@ -11,6 +11,7 @@ import light
 import cv2
 import griddata
 from scipy import interpolate
+import sys
 
 
 def gen_ccc(rgb, ns):
@@ -55,6 +56,10 @@ def num2rgb(num, ccc, rg):
     return rgb
     pass
 
+
+filepath = sys.argv[1]
+rn = int(sys.argv[2])
+
 lat_fy4a = gdal.Open(
     './lut4k_1.tif').\
     ReadAsArray(0, 0, 2748, 2748)  # 纬度数据
@@ -62,9 +67,9 @@ lon_fy4a = gdal.Open(
     './lut4k_2.tif').\
     ReadAsArray(0, 0, 2748, 2748)  # 经度数据
 
-filepath = './AGRI/L1/FDI/DISK/2019/20190304/' + \
-    'FY4A-_AGRI--_N_DISK_1047E_L1-_FDI-_MULT_NOM_' + \
-    '20190304040000_20190304041459_4000M_V0001.HDF'
+# filepath = './AGRI/L1/FDI/DISK/2019/20190304/' + \
+#    'FY4A-_AGRI--_N_DISK_1047E_L1-_FDI-_MULT_NOM_' + \
+#    '20190304040000_20190304041459_4000M_V0001.HDF'
 f = h5.File(filepath, 'r')
 Channel = 12
 
@@ -92,8 +97,8 @@ if True:
     x4 = np.linspace(0,10,num=2748)
     y4 = np.linspace(0,10,num=2748)
     x42, y42 = np.meshgrid(x4, y4)
-    xo = np.linspace(0,10,num=2748*4)
-    yo = np.linspace(0,10,num=2748*4)
+    xo = np.linspace(0,10,num=2748*rn)
+    yo = np.linspace(0,10,num=2748*rn)
     id = np.where((tb > 0) & (lon_fy4a > -190) & (lat_fy4a > -100))
     sn = 4
     tb = griddata.stb(sn, x42, y42, tb, xo, yo).transpose()
@@ -113,7 +118,7 @@ tb[np.where(tb < 50)] = np.nan
 rg = [-110+273.15, 50+273.15]
 tb3 = num2rgb(tb, ch8, rg)
 
-lt = light.point(lon_fy4a, lat_fy4a, 1-tb/20/100*100, np.array([-1,-1,1]))
+lt = light.point(lon_fy4a, lat_fy4a, 1-tb/20/100*100, np.array([-1,1,1]))
 
 if True:
     lt[lt < 0] = 0
