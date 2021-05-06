@@ -81,11 +81,6 @@ f.close()
 tb[np.where(tb < 50)] = np.nan
 print(tb.dtype)
 
-plt.imshow(tb)
-plt.colorbar()
-plt.show()
-
-
 if False:
     tb = cv2.resize(tb.astype(np.double), (2748*2, 2748*2))
     lon_fy4a = cv2.resize(lon_fy4a.astype(np.double), (2748*2, 2748*2))
@@ -105,14 +100,8 @@ if True:
     lon_fy4a = griddata.stb(sn, x42, y42, lon_fy4a, xo, yo)
     lat_fy4a = griddata.stb(sn, x42, y42, lat_fy4a, xo, yo)
 
-plt.imshow(tb)
-plt.colorbar()
-plt.show()
-
 # imshow total
 # {{{
-fig = plt.figure(figsize=(14, 7), dpi=100)
-ax = fig.add_subplot(1, 2, 1)
 tb[np.where(tb < 50)] = np.nan
 
 rg = [-110+273.15, 50+273.15]
