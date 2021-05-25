@@ -35,7 +35,7 @@ subroutine simple ( nx, ny, x, y, z, l, r) ! {{{
             xn = y1*z2-y2*z1
             yn = z1*x2-z2*x1
             zn = x1*y2-x2*y1
-            write(*,*)x1*y2, x2*y1, x1*y2-x2*y1
+            ! write(*,*)x1*y2, x2*y1, x1*y2-x2*y1
             m = sqrt(xn**2+yn**2+zn**2)
             xn = xn/m
             yn = yn/m
@@ -74,7 +74,6 @@ subroutine point ( nx, ny, x, y, z, l, r) ! {{{
 
     ! Output
     ! r, output lighting (normal_in_each_point x l)
-    
     implicit none
 
     integer ( kind = 4 ), intent(in):: nx, ny

@@ -8,7 +8,7 @@ import light
 import cv2
 import griddata
 import sys
-import matplotlib.pyplot as plt
+import re
 
 
 def gen_ccc(rgb, ns):
@@ -29,6 +29,18 @@ rgb = ((0.2, 0.2, 0), (1, 1, 0), (0.5, 0, 0.5), (1, 0, 1), (1, 0.7, 1),
        (1, 1, 1), (0, 0, 0), (1, 0, 0),
        (1, 1, 0), (0, 1, 0), (0, 1, 1), (0, 0, 0))
 ns = [40, 0, 10, 10, 0, 20, 20, 20, 20, 40, 140]
+ch8 = gen_ccc(rgb, ns)
+
+rgb = ((0.2, 0.2, 0), (1, 1, 0), (0.5, 0, 0.5), (1, 0, 1), (1, 0.7, 1),
+       (1, 1, 1), (0, 0, 0), (1, 0, 0),
+       (1, 1, 0), (0, 1, 0), (0, 1, 1),
+       (0, 0, 0), (1, 0, 0), (0, 1, 1), (0, 1, 0))
+ns = [40, 0, 10, 10, 0, 20, 20, 20, 20, 40, 140, 100, 50, 50]
+ch8 = gen_ccc(rgb, ns)
+
+rgb = ((1, 1, 1), (0, 0, 0), (1, 0, 0), (1, 1, 0), (0, 1, 0),
+       (0, 0, 1), (0, 1, 1), (0.8, 0.8, 0.8), (0.1, 0.1, 0.1))
+ns = [10, 10, 10, 10, 10, 10, 10, 80]
 ch8 = gen_ccc(rgb, ns)
 
 
@@ -74,11 +86,27 @@ NOMChannel = f['NOMChannel%s' % (Channel)][:]
 CALChannel = f['CALChannel%s' % (Channel)][:]
 tb = Data_Cal(NOMChannel, CALChannel)
 f.close()
+
+cth_file = re.sub(r'\.HDF', r'.NC', infile)
+cth_file = re.sub(r'FDI', r'CTH', cth_file)
+cth_file = re.sub(r'L1', r'L2', cth_file)
+print(cth_file)
+f = h5.File(cth_file, 'r')
+cth = f['CTH'][:]
+f.close()
+
+f = h5.File('topo_fy4a_4km.nc', 'r')
+topo = f['topo'][:]
+topo = np.flip(topo.T, 0)
+f.close()
+
+# topo = topo/1000
+# topo[np.where(cth > 0)] = cth[np.where(cth > 0)]
+
 # }}}
 tb[np.where(tb < 50)] = np.nan
 print(tb.dtype)
-plt.imshow(tb)
-plt.show()
+# tb[np.where(cth < 0)] = tb[np.where(cth < 0)]+100
 
 if False:
     tb = cv2.resize(tb.astype(np.double), (2748*2, 2748*2))
@@ -95,17 +123,18 @@ if True:
     # id = np.where((tb > 0) & (lon_fy4a > -190) & (lat_fy4a > -100))
     sn = 4
     tb = griddata.stb(sn, x42, y42, tb, xo, yo).transpose()
+    topo = griddata.stb(sn, x42, y42, topo, xo, yo).transpose()
     lon_fy4a = griddata.stb(sn, x42, y42, lon_fy4a, xo, yo)
     lat_fy4a = griddata.stb(sn, x42, y42, lat_fy4a, xo, yo)
 
 # imshow total
 # {{{
 tb[np.where(tb < 50)] = np.nan
-
-rg = [-110+273.15, 50+273.15]
+rg = [-110+273.15, 50+100+273.15]
+rg = [-90+273.15, 60+273.15]
 tb3 = num2rgb(tb, ch8, rg)
 
-lt = light.point(lon_fy4a, lat_fy4a, 1-tb/20/100*100, np.array([-1, 1, 1]))
+lt = light.point(lon_fy4a, lat_fy4a, topo, np.array([-1, 1, 1]))
 if True:
     lt[lt < 0] = 0
     lt = lt+0.3
@@ -117,9 +146,10 @@ for i in range(0, 2):
         cv2.filter2D(np.ones(lt.shape), -1, np.ones((g, g)))
 
 tb4 = tb3+0
+# lt = lt*0+1
 tb4[:, :, 0] = tb3[:, :, 2]*lt
 tb4[:, :, 1] = tb3[:, :, 1]*lt
 tb4[:, :, 2] = tb3[:, :, 0]*lt
 
-cv2.imwrite(outfile, (tb3*255).astype(np.int32))
+cv2.imwrite(outfile, (tb4*255).astype(np.int32))
 # }}}
