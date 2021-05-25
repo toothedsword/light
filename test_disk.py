@@ -13,4 +13,4 @@ outfile = re.sub(r'.*\/', '', infile)
 outfile = re.sub(r'\.HDF$', '.TIFF', outfile)
 
 # os.system("python3 ./disk.py "+infile+" "+rn+" "+outfile)
-os.system("python3 ./disk_topo_cth.py "+infile+" "+rn+" "+outfile)
+os.system("python3 ./disk_topo_cth.py "+infile+" "+rn+" "+outfile)# {{{}}}

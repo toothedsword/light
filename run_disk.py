@@ -21,7 +21,7 @@ while True:
             continue
         print(outfile)
         outdir = re.sub(r'[^\/]+$', '', outfile)
-        if os.path.exists(outdir):
+        if not(os.path.exists(outdir)):
             os.system('mkdir -p '+outdir)
         os.system("python3 ./disk_topo_cth.py "+infile+" "+rn+" "+outfile)
     time.sleep(1)
