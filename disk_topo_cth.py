@@ -102,7 +102,7 @@ topo = np.flip(topo.T, 0)
 f.close()
 
 # topo = topo/1000
-# topo[np.where(cth > 0)] = cth[np.where(cth > 0)]
+topo[np.where(cth > 0)] = cth[np.where(cth > 0)]
 
 # }}}
 tb[np.where(tb < 50)] = np.nan
