@@ -90,6 +90,7 @@ f.close()
 cth_file = re.sub(r'\.HDF', r'.NC', infile)
 cth_file = re.sub(r'FDI', r'CTH', cth_file)
 cth_file = re.sub(r'L1', r'L2', cth_file)
+cth_file = re.sub(r'\/DISK\/', '/DISK/NOM/', cth_file)
 print(cth_file)
 f = h5.File(cth_file, 'r')
 cth = f['CTH'][:]
