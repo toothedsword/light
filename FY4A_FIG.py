@@ -168,6 +168,13 @@ def get_tb3(dtime, lonlim, latlim, addlight=True,
             print(cth_file)
             f = h5.File(cth_file, 'r')
             cth = f['CTH'][:]
+            cth_bln = f['geospatial_lat_lon_extent'].attrs['begin_line_number']
+            cth_eln = f['geospatial_lat_lon_extent'].attrs['end_line_number']
+            cth_bpn = f['geospatial_lat_lon_extent'].attrs['begin_pixel_number']
+            cth_epn = f['geospatial_lat_lon_extent'].attrs['end_pixel_number']
+            cth0 = lon_fy4a*0-100
+            cth0[cth_bln:cth_eln+1, cth_bpn:cth_epn+1] = cth
+            cth = cth0
             f.close()
             topo[np.where(cth > 0)] = cth[np.where(cth > 0)]
             topo = griddata.stb(sn, np.flip(lat_fy4a, 0),
