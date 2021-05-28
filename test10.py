@@ -64,7 +64,7 @@ while t <= t1:
         if re.search('_topo_', figname):
             lighttype = 'topo'
         if re.search('_topocth_', figname):
-            lighttype = 'cth'
+            lighttype = 'topocth'
         lon2, lat2, tb2, tb3, tb4, lat_fy4a, lon_fy4a, ccc = \
             FY4A_FIG.get_tb3(t, lonlim, latlim, addlight=True,
                              lighttype=lighttype, ctype='swap')
