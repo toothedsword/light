@@ -102,8 +102,8 @@ def get_tb3(dtime, lonlim, latlim, addlight=True,
     tb = Data_Cal(NOMChannel, CALChannel)
     f.close()
     tb[np.where(tb < 50)] = np.nan
-    tb[np.where(tb < tbrg[0]+273.15)] = tbrg[0]
-    tb[np.where(tb > tbrg[1]+273.15)] = tbrg[1]
+    tb[np.where(tb < tbrg[0]+273.15)] = miss
+    tb[np.where(tb > tbrg[1]+273.15)] = miss
     # }}}
 
     # griddata
@@ -133,8 +133,8 @@ def get_tb3(dtime, lonlim, latlim, addlight=True,
                            np.flip(lon_fy4a, 0),
                            np.flip(tb, 0), lat_gd, lon_gd)
     tb2[np.where(tb2 < 10)] = np.nan
-    tb2[np.where(tb2 < 100)] = miss
-    tb2[np.where(tb2 > 330)] = miss
+    tb2[np.where(tb2 < 100)] = np.nan
+    tb2[np.where(tb2 > 330)] = np.nan
 
     tb3 = num2rgb(tb2, ch8, rg)
     # }}}
