@@ -102,8 +102,8 @@ def get_tb3(dtime, lonlim, latlim, addlight=True,
     tb = Data_Cal(NOMChannel, CALChannel)
     f.close()
     tb[np.where(tb < 50)] = np.nan
-    tb[np.where(tb < tbrg[0]+273.15)] = np.nan
-    tb[np.where(tb > tbrg[1]+273.15)] = np.nan
+    tb[np.where(tb < tbrg[0]+273.15)] = tbrg[0]
+    tb[np.where(tb > tbrg[1]+273.15)] = tbrg[1]
     # }}}
 
     # griddata
