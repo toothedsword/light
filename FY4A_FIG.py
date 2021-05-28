@@ -156,8 +156,25 @@ def get_tb3(dtime, lonlim, latlim, addlight=True,
                                 np.flip(lon_fy4a, 0),
                                 np.flip(topo, 0), lat_gd, lon_gd)
             cth = topo
-        if lighttype == 'cth':
+        if lighttype == 'topocth':
+            f = h5.File('./topo_fy4a_4km.nc', 'r')
+            topo = f['topo'][:]
+            topo = np.flip(topo.T, 0)
+            f.close()
+            cth_file = re.sub(r'\.HDF', r'.NC', filepath)
+            cth_file = re.sub(r'FDI', r'CTH', cth_file)
+            cth_file = re.sub(r'L1', r'L2', cth_file)
+            cth_file = re.sub(r'\/DISK\/', '/DISK/NOM/', cth_file)
+            print(cth_file)
+            f = h5.File(cth_file, 'r')
+            cth = f['CTH'][:]
+            f.close()
+            topo[np.where(cth > 0)] = cth[np.where(cth > 0)]
+            topo = griddata.stb(sn, np.flip(lat_fy4a, 0),
+                                np.flip(lon_fy4a, 0),
+                                np.flip(topo, 0), lat_gd, lon_gd)
             cth = topo
+
         lt = light.point(lon2, lat2, cth, np.array([-1, 1, 1]))
         if True:
             lt[lt < 0] = 0
