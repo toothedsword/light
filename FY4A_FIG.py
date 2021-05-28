@@ -177,11 +177,15 @@ def get_tb3(dtime, lonlim, latlim, addlight=True,
             cth0[cth_bln:cth_eln+1, cth_bpn:cth_epn+1] = cth
             cth = cth0
             f.close()
+            topo0 = griddata.stb(sn, np.flip(lat_fy4a, 0),
+                                 np.flip(lon_fy4a, 0),
+                                 np.flip(topo, 0), lat_gd, lon_gd)
             topo[np.where(cth > 0)] = cth[np.where(cth > 0)]
             topo = griddata.stb(sn, np.flip(lat_fy4a, 0),
                                 np.flip(lon_fy4a, 0),
                                 np.flip(topo, 0), lat_gd, lon_gd)
             cth = topo
+            cth[np.where(tb2 == miss)] = topo0[np.where(tb2 == miss)]
 
         lt = light.point(lon2, lat2, cth, np.array([-1, 1, 1]))
         if True:
