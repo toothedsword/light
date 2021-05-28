@@ -67,7 +67,7 @@ while t <= t1:
             lighttype = 'cth'
         lon2, lat2, tb2, tb3, tb4, lat_fy4a, lon_fy4a, ccc = \
             FY4A_FIG.get_tb3(t, lonlim, latlim, addlight=True,
-                             lighttype=lighttype)
+                             lighttype=lighttype. ctype='swap')
 
         pn = np.sum(tb2 > 50)/np.sum(lon2 > -360)*100
         spn = str(int(pn))
@@ -81,7 +81,7 @@ while t <= t1:
         # ax.plot(tclon1, tclat1, 'g+', linewidth=0.5, markersize=20)
         ax.set_xlim(lonlim)
         ax.set_ylim(latlim)
-        ax.plot(cll[:, 0], cll[:, 1], 'k-', linewidth=0.5)
+        # ax.plot(cll[:, 0], cll[:, 1], 'k-', linewidth=0.5)
 
         ax, _ = mpl.colorbar.make_axes(plt.gca(), shrink=0.5)
         cbar = mpl.colorbar.ColorbarBase(

@@ -51,10 +51,9 @@ def get_tb3(dtime, lonlim, latlim, addlight=True,
             file_re_path='./AGRI/L1/FDI/*/yyyy/yyyymmdd/' +
             'FY4A-_AGRI--_N_*_1047E_L1-_FDI-_MULT_NOM_' +
             'yyyymmddHHMM??_*_4000M_V0001.HDF',
-            filepath=-1, lighttype='tb'):
+            filepath=-1, lighttype='tb', ctype='ch8'):
 
     # get ccc
-    print('ccc')
     # {{{
     rgb = ((0.2, 0.2, 0), (1, 1, 0), (0.5, 0, 0.5), (1, 0, 1), (1, 0.7, 1),
            (1, 1, 1), (0, 0, 0), (1, 0, 0),
@@ -65,6 +64,15 @@ def get_tb3(dtime, lonlim, latlim, addlight=True,
            (1, 1, 1), (0, 0, 0), (1, 0, 0),
            (1, 1, 0), (0, 1, 0), (0, 1, 1), (0, 0, 0))
     ns = [40, 0, 10, 10, 0, 20, 20, 20, 20, 40, 140]
+    rg = [-110+273.15, 50+100+273.15]
+    if ctype == 'swap':
+        rgb = ((1, 1, 1), (0, 0, 0), (1, 0, 0), (1, 1, 0), (0, 1, 0),
+            (0, 0, 1), (0, 1, 1), (0.8, 0.8, 0.8), (0.1, 0.1, 0.1))
+        ns = [10, 10, 10, 10, 10, 10, 10, 80]
+        ch8 = gen_ccc(rgb, ns)
+        rg = [-90+273.15, 60+273.15]
+
+        pass
     # th8 = gen_ccc(rgb, ns)
     # }}}
 
@@ -125,12 +133,6 @@ def get_tb3(dtime, lonlim, latlim, addlight=True,
     tb2[np.where(tb2 < 100)] = 100
     tb2[np.where(tb2 > 330)] = 330
 
-    ccc = np.array(
-        [[1, 0, 0], [1, 1, 0], [0, 1, 0], [0, 1, 1], [0, 0, 1], [1, 0, 1]
-         ])
-    rg = [-110+273.15, 50+273.15]
-    rg = [-110+273.15, 50+273.15]
-    # rg = [190, 320]
     tb3 = num2rgb(tb2, ch8, rg)
     # }}}
 
