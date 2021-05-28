@@ -17,6 +17,7 @@ while True:
         rn = '2'
         outfile = re.sub(r'\/AGRI\/', '/figure/', infile)
         outfile = re.sub(r'\.HDF$', '.TIFF', outfile)
+        outfile = re.sub(r'FY4A', 'FY4B', outfile)
         if os.path.exists(outfile):
             continue
         print(outfile)

@@ -51,7 +51,7 @@ def get_tb3(dtime, lonlim, latlim, addlight=True,
             file_re_path='./AGRI/L1/FDI/*/yyyy/yyyymmdd/' +
             'FY4A-_AGRI--_N_*_1047E_L1-_FDI-_MULT_NOM_' +
             'yyyymmddHHMM??_*_4000M_V0001.HDF',
-            filepath=-1):
+            filepath=-1, lighttype='tb'):
 
     # get ccc
     print('ccc')
@@ -140,7 +140,20 @@ def get_tb3(dtime, lonlim, latlim, addlight=True,
     lon2, lat2 = np.meshgrid(lon_gd, lat_gd)
     tb4 = -1
     if addlight:
-        lt = light.point(lon2, lat2, 1-tb2/20/100*20, np.array([-1, 1, 1]))
+        if lighttype == 'tb':
+            cth = 1-tb2/20/100*20
+        if lighttype == 'topo':
+            f = h5.File('./topo_fy4a_4km.nc', 'r')
+            topo = f['topo'][:]
+            topo = np.flip(topo.T, 0)
+            f.close()
+            topo = griddata.stb(sn, np.flip(lat_fy4a, 0),
+                                np.flip(lon_fy4a, 0),
+                                np.flip(topo, 0), lat_gd, lon_gd)
+            cth = topo
+        if lighttype == 'cth':
+            cth = topo
+        lt = light.point(lon2, lat2, cth, np.array([-1, 1, 1]))
         if True:
             lt[lt < 0] = 0
             lt = lt+0.3
