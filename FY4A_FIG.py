@@ -52,7 +52,7 @@ def get_tb3(dtime, lonlim, latlim, addlight=True,
             'FY4A-_AGRI--_N_*_1047E_L1-_FDI-_MULT_NOM_' +
             'yyyymmddHHMM??_*_4000M_V0001.HDF',
             filepath=-1, lighttype='tb', ctype='ch8',
-            tbrg=[-300, 400]):
+            tbrg=[-300, 400], miss=-999):
 
     # get ccc
     # {{{
@@ -133,8 +133,8 @@ def get_tb3(dtime, lonlim, latlim, addlight=True,
                            np.flip(lon_fy4a, 0),
                            np.flip(tb, 0), lat_gd, lon_gd)
     tb2[np.where(tb2 < 10)] = np.nan
-    tb2[np.where(tb2 < 100)] = 100
-    tb2[np.where(tb2 > 330)] = 330
+    tb2[np.where(tb2 < 100)] = miss
+    tb2[np.where(tb2 > 330)] = miss
 
     tb3 = num2rgb(tb2, ch8, rg)
     # }}}
