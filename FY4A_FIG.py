@@ -51,7 +51,8 @@ def get_tb3(dtime, lonlim, latlim, addlight=True,
             file_re_path='./AGRI/L1/FDI/*/yyyy/yyyymmdd/' +
             'FY4A-_AGRI--_N_*_1047E_L1-_FDI-_MULT_NOM_' +
             'yyyymmddHHMM??_*_4000M_V0001.HDF',
-            filepath=-1, lighttype='tb', ctype='ch8'):
+            filepath=-1, lighttype='tb', ctype='ch8',
+            tbrg=[-300, 400]):
 
     # get ccc
     # {{{
@@ -101,6 +102,8 @@ def get_tb3(dtime, lonlim, latlim, addlight=True,
     tb = Data_Cal(NOMChannel, CALChannel)
     f.close()
     tb[np.where(tb < 50)] = np.nan
+    tb[np.where(tb < tbrg[0]+273.15)] = np.nan
+    tb[np.where(tb > tbrg[1]+273.15)] = np.nan
     # }}}
 
     # griddata
