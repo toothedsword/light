@@ -165,6 +165,7 @@ def get_tb3(dtime, lonlim, latlim, addlight=True,
             cth_file = re.sub(r'FDI', r'CTH', cth_file)
             cth_file = re.sub(r'L1', r'L2', cth_file)
             cth_file = re.sub(r'\/DISK\/', '/DISK/NOM/', cth_file)
+            cth_file = re.sub(r'\/REGC\/', '/REGC/NOM/', cth_file)
             print(cth_file)
             f = h5.File(cth_file, 'r')
             cth = f['CTH'][:]
