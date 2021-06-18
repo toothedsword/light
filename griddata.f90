@@ -508,3 +508,109 @@ subroutine stb ( nix, niy, nox, noy, sn, xi, yi, zi, xo, yo, zo ) ! {{{
     return
 end subroutine stb ! }}}
 
+subroutine most ( ni, nox, noy, sn, xi, yi, zi, xo, yo, zo ) ! {{{
+
+    ! Dimension
+    ! ni, length of input data
+    ! nox, x length of output data
+    ! noy, y length of output data
+
+    ! Input:
+    ! sn, number of convolution
+    ! xi, input x
+    ! yi, input y
+    ! zi, input z
+
+    ! Output
+    ! xo, output x
+    ! yo, output y
+    ! zo, output z
+    
+    implicit none
+
+    integer ( kind = 4 ), intent(in):: ni, nox, noy, sn
+    integer ( kind = 4 ) ox, oy, i
+    integer ( kind = 4 ) cx, cy, ci
+
+    real ( kind = 8 ), intent(in):: xi(ni), yi(ni), zi(ni)
+    real ( kind = 8 ), intent(in):: xo(nox), yo(noy)
+    real ( kind = 8 ), intent(out):: zo(nox, noy)
+    real ( kind = 8 ) zoc(nox, noy)
+    real ( kind = 8 ) zn(nox, noy), cn, cz
+    real ( kind = 8 ) dx, dy
+    integer (kind = 4) znan_xi(nox*noy), znan_yi(nox*noy), n_nan, n1_nan
+    dx = xo(2)-xo(1)
+    dy = yo(2)-yo(1)
+    zo(:,:) = 0
+    zn(:,:) = 0
+
+    do i = 1, ni
+        if (xi(i) .ge. xo(1) .and. xi(i) .le. xo(nox)+dx .and. &
+            yi(i) .ge. yo(1) .and. yi(i) .le. yo(noy)+dy) then  
+            ox = floor((xi(i)-xo(1))/dx)+1
+            if (ox .gt. nox) then 
+                ox = nox
+            endif
+            oy = floor((yi(i)-yo(1))/dy)+1
+            if (oy .gt. noy) then
+                oy = noy
+            endif
+            zn(ox, oy) = zn(ox, oy)+1; 
+            zo(ox, oy) = zo(ox, oy)+zi(i); 
+        endif
+    enddo
+  
+    n_nan = 0
+    do oy = 1, noy
+        do ox = 1, nox
+            if (zn(ox, oy) .eq. 0) then
+                zo(ox, oy) = -999; 
+                n_nan = n_nan+1 
+                znan_xi(n_nan) = ox 
+                znan_yi(n_nan) = oy 
+            else
+                zo(ox, oy) = zo(ox, oy)/zn(ox, oy)
+            endif
+        enddo
+    enddo
+
+    do ci = 1, sn
+        if (n_nan .ge. 1) then
+            write(*,*)ci
+            zoc = zo
+            n1_nan = 0
+            do i = 1, n_nan
+                ox = znan_xi(i)
+                oy = znan_yi(i)
+                if (zo(ox, oy) .lt. -990) then
+                    cn = 0
+                    cz = 0
+                    do cy = -1, 1
+                        do cx = -1, 1 
+                            if (ox+cx .le. nox .and. ox+cx .ge. 1 .and. &
+                                oy+cy .le. noy .and. oy+cy .ge. 1) then
+                                if (zo(ox+cx, oy+cy) .gt. 0) then 
+                                    cn = cn+1
+                                    zoc(ox, oy) = zo(ox+cx, oy+cy)  ! test 
+                                endif
+                            endif
+                        enddo
+                    enddo
+                    if (cn .gt. 0) then
+                        continue
+                    else  
+                        n1_nan = n1_nan+1
+                        znan_xi(n1_nan) = ox
+                        znan_yi(n1_nan) = oy
+                    endif 
+                endif
+            enddo
+            n_nan = n1_nan
+            zo = zoc
+        endif
+    enddo
+
+    write(*,*)'end griddata'
+    return
+end subroutine most ! }}}
+

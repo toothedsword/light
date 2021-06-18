@@ -46,6 +46,7 @@ def num2rgb(num, ccc, rg):
 
 
 def get_tb3(dtime, lonlim, latlim, addlight=True,
+            lon_gd=-1, lat_gd=-1,
             lat_fy4a='./lut4k_1.tif',
             lon_fy4a='./lut4k_2.tif',
             file_re_path='./AGRI/L1/FDI/*/yyyy/yyyymmdd/' +
@@ -70,6 +71,11 @@ def get_tb3(dtime, lonlim, latlim, addlight=True,
         rgb = ((1, 1, 1), (0, 0, 0), (1, 0, 0), (1, 1, 0), (0, 1, 0),
             (0, 0, 1), (0, 1, 1), (0.8, 0.8, 0.8), (0.1, 0.1, 0.1))
         ns = [10, 10, 10, 10, 10, 10, 10, 80]
+        ch8 = gen_ccc(rgb, ns)
+        rg = [-90+273.15, 60+273.15]
+    if ctype == 'gray':
+        rgb = ((1, 1, 1), (0, 0, 0))
+        ns = [200]
         ch8 = gen_ccc(rgb, ns)
         rg = [-90+273.15, 60+273.15]
 
@@ -115,10 +121,10 @@ def get_tb3(dtime, lonlim, latlim, addlight=True,
         lon_fy4a = gdal.Open(lon_fy4a).\
             ReadAsArray(0, 0, 2748, 2748)  # 经度数据
 
-    lat_gd = np.linspace(latlim[0], latlim[1], num=2000)
-    # (latlim[1]-latlim[0])*200)
-    lon_gd = np.linspace(lonlim[0], lonlim[1], num=2500)
-    # (lonlim[1]-lonlim[0])*200)
+    if re.search('str', str(type(lat_gd))):
+        lat_gd = np.linspace(latlim[0], latlim[1], num=2000)
+    if re.search('str', str(type(lon_gd))):
+        lon_gd = np.linspace(lonlim[0], lonlim[1], num=2000)
     sn = 200
     tb0 = lon_fy4a*0-100
     tb0[bln:eln+1, bpn:epn+1] = tb
