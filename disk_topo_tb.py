@@ -25,7 +25,7 @@ def gen_ccc(rgb, ns):
 # }}}
 
 
-if False:
+if True:
     rgb = ((0, 1, 0), (0.9, 1, 0.8), (0.5, 0.2, 0))
     ns = [50, 50]
     tcc = gen_ccc(rgb, ns)
