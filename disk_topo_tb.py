@@ -161,6 +161,7 @@ bn[np.where(cth > 0)] = b[np.where(cth > 0)]
 tb3[:,:,0] = rn
 tb3[:,:,1] = gn
 tb3[:,:,2] = bn
+tb3 = tb3_nocloud
 
 lt = light.point(lon_fy4a, lat_fy4a, topo, np.array([-1, 1, 1]))
 if True:
