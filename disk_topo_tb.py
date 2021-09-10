@@ -147,7 +147,7 @@ rg = [-110+273.15, 50+100+273.15]
 tb3 = num2rgb(tb, ch8, rg)
 
 tb_nocloud = tb
-tb_nocloud[np.where(cth <= 0)] = np.nan
+tb_nocloud[np.where(not(cth <= 0))] = np.nan
 tb3_nocloud = num2rgb(tb_nocloud, tcc, [-50+273.15, 50+273.15])
 # tb3[np.where(tb3_nocloud > 0)] = tb3_nocloud[np.where(tb3_nocloud > 0)]
 tb3 = tb3_nocloud
