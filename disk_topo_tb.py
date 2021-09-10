@@ -26,6 +26,11 @@ def gen_ccc(rgb, ns):
 
 
 if False:
+    rgb = ((0, 1, 0), (0.9, 1, 0.8), (0.5, 0.2, 0))
+    ns = [50, 50]
+    tcc = gen_ccc(rgb, ns)
+
+if False:
     rgb = ((0.2, 0.2, 0), (1, 1, 0), (0.5, 0, 0.5), (1, 0, 1), (1, 0.7, 1),
            (1, 1, 1), (0, 0, 0), (1, 0, 0),
            (1, 1, 0), (0, 1, 0), (0, 1, 1), (0, 0, 0))
@@ -103,10 +108,11 @@ f = h5.File('topo_fy4a_4km.nc', 'r')
 topo = f['topo'][:]
 topo = np.flip(topo.T, 0)
 f.close()
+# topo[np.where(cth > 0)] = cth[np.where(cth > 0)]
 
 # topo = topo/1000
-# cth = 1-tb/20/100*20
-topo[np.where(cth > 0)] = cth[np.where(cth > 0)]
+cth = 1-tb/20/100*20
+topo[np.where(tb > -17+273.15)] = cth[np.where(tb > -17+273.15)]
 
 # }}}
 # tb[np.where(tb < 50)] = np.nan
