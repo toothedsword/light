@@ -26,7 +26,7 @@ def gen_ccc(rgb, ns):
 
 
 if True:
-    rgb = ((0, 1, 0), (0.9, 1, 0.8), (0.5, 0.2, 0))
+    rgb = ((0.5, 0.2, 0), (0.9, 1, 0.8), (0, 1, 0))
     # rgb = ((0, 0, 0), (0.5, 0.5, 0.5), (0.9, 1, 0.8))
     ns = [50, 50]
     tcc = gen_ccc(rgb, ns)
@@ -148,7 +148,7 @@ rg = [-110+273.15, 50+100+273.15]
 tb3 = num2rgb(tb, ch8, rg)
 
 tb_nocloud = tb
-tb3_nocloud = num2rgb(tb_nocloud, tcc, [-50+273.15, 50+273.15])
+tb3_nocloud = num2rgb(tb_nocloud, tcc, [-50+273.15, 20+273.15])
 r = tb3[:,:,0]
 g = tb3[:,:,1]
 b = tb3[:,:,2]
