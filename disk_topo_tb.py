@@ -108,11 +108,11 @@ f = h5.File('topo_fy4a_4km.nc', 'r')
 topo = f['topo'][:]
 topo = np.flip(topo.T, 0)
 f.close()
-# topo[np.where(cth > 0)] = cth[np.where(cth > 0)]
+topo[np.where(cth > 0)] = cth[np.where(cth > 0)]
 
 # topo = topo/1000
-cth = 1-tb/20/100*20
-topo[np.where(tb < -17+273.15)] = cth[np.where(tb < -17+273.15)]
+# cth = 10-tb/20/100*20
+# topo[np.where(tb < -17+273.15)] = cth[np.where(tb < -17+273.15)]
 
 # }}}
 # tb[np.where(tb < 50)] = np.nan
@@ -140,7 +140,7 @@ if True:
 
 # imshow total
 # {{{
-tb[np.where(tb < 50)] = np.nan
+# tb[np.where(tb < 50)] = np.nan
 rg = [-110+273.15, 50+100+273.15]
 # rg = [-90+273.15, 60+273.15]
 tb3 = num2rgb(tb, ch8, rg)
