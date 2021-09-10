@@ -112,7 +112,7 @@ f.close()
 
 # topo = topo/1000
 cth = 1-tb/20/100*20
-topo[np.where(tb > -17+273.15)] = cth[np.where(tb > -17+273.15)]
+topo[np.where(tb < -17+273.15)] = cth[np.where(tb < -17+273.15)]
 
 # }}}
 # tb[np.where(tb < 50)] = np.nan
