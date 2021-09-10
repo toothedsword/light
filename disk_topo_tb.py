@@ -158,9 +158,9 @@ r[np.where(cth <= 0)] = rn[np.where(cth <= 0)]
 g[np.where(cth <= 0)] = gn[np.where(cth <= 0)] 
 b[np.where(cth <= 0)] = bn[np.where(cth <= 0)] 
 # tb3[np.where(tb3_nocloud > 0)] = tb3_nocloud[np.where(tb3_nocloud > 0)]
-tb[:,:,0] = r
-tb[:,:,1] = g
-tb[:,:,2] = b
+tb3[:,:,0] = r
+tb3[:,:,1] = g
+tb3[:,:,2] = b
 
 
 lt = light.point(lon_fy4a, lat_fy4a, topo, np.array([-1, 1, 1]))
