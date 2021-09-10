@@ -105,10 +105,11 @@ topo = np.flip(topo.T, 0)
 f.close()
 
 # topo = topo/1000
+# cth = 1-tb/20/100*20
 topo[np.where(cth > 0)] = cth[np.where(cth > 0)]
 
 # }}}
-tb[np.where(tb < 50)] = np.nan
+# tb[np.where(tb < 50)] = np.nan
 print(tb.dtype)
 # tb[np.where(cth < 0)] = tb[np.where(cth < 0)]+100
 
