@@ -162,6 +162,8 @@ tb3[:,:,0] = rn
 tb3[:,:,1] = gn
 tb3[:,:,2] = bn
 tb3 = tb3_nocloud
+print(tb3.shape)
+print(cth.shape)
 
 lt = light.point(lon_fy4a, lat_fy4a, topo, np.array([-1, 1, 1]))
 if True:
