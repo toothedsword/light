@@ -154,14 +154,13 @@ b = tb3[:,:,2]
 rn = tb3_nocloud[:,:,0]
 gn = tb3_nocloud[:,:,1]
 bn = tb3_nocloud[:,:,2]
-r[np.where(cth <= 0)] = rn[np.where(cth <= 0)] 
-g[np.where(cth <= 0)] = gn[np.where(cth <= 0)] 
-b[np.where(cth <= 0)] = bn[np.where(cth <= 0)] 
+rn[np.where(cth > 0)] = r[np.where(cth > 0)] 
+gn[np.where(cth > 0)] = g[np.where(cth > 0)] 
+bn[np.where(cth > 0)] = b[np.where(cth > 0)] 
 # tb3[np.where(tb3_nocloud > 0)] = tb3_nocloud[np.where(tb3_nocloud > 0)]
-tb3[:,:,0] = r
-tb3[:,:,1] = g
-tb3[:,:,2] = b
-
+tb3[:,:,0] = rn
+tb3[:,:,1] = gn
+tb3[:,:,2] = bn
 
 lt = light.point(lon_fy4a, lat_fy4a, topo, np.array([-1, 1, 1]))
 if True:
