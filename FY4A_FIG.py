@@ -46,7 +46,7 @@ def num2rgb(num, ccc, rg):
 
 
 def get_tb3(dtime, lonlim, latlim, addlight=True,
-            lon_gd=-1, lat_gd=-1,
+            lon_gd='', lat_gd='',
             lat_fy4a='./lut4k_1.tif',
             lon_fy4a='./lut4k_2.tif',
             file_re_path='./AGRI/L1/FDI/*/yyyy/yyyymmdd/' +
@@ -138,9 +138,10 @@ def get_tb3(dtime, lonlim, latlim, addlight=True,
         tb2 = griddata.stb(sn, np.flip(lat_fy4a, 0),
                            np.flip(lon_fy4a, 0),
                            np.flip(tb, 0), lat_gd, lon_gd)
+
     tb2[np.where(tb2 < 10)] = np.nan
-    tb2[np.where(tb2 < tbrg[0]+273.15)] = miss
-    tb2[np.where(tb2 > tbrg[1]+273.15)] = miss
+    # tb2[np.where(tb2 < tbrg[0]+273.15)] = miss
+    # tb2[np.where(tb2 > tbrg[1]+273.15)] = miss
 
     tb3 = num2rgb(tb2, ch8, rg)
     # }}}
@@ -192,6 +193,23 @@ def get_tb3(dtime, lonlim, latlim, addlight=True,
                                 np.flip(topo, 0), lat_gd, lon_gd)
             cth = topo
             cth[np.where(tb2 == miss)] = topo0[np.where(tb2 == miss)]
+
+        if lighttype == 'tbtopo':
+            cth = 1-tb2/20/100*20
+            f = h5.File('./topo_fy4a_4km.nc', 'r')
+            topo = f['topo'][:]
+            topo = np.flip(topo.T, 0)
+            f.close()
+            topo0 = griddata.stb(sn, np.flip(lat_fy4a, 0),
+                                 np.flip(lon_fy4a, 0),
+                                 np.flip(topo, 0), lat_gd, lon_gd)
+            topo[np.where(cth > 0)] = cth[np.where(cth > 0)]
+            topo = griddata.stb(sn, np.flip(lat_fy4a, 0),
+                                np.flip(lon_fy4a, 0),
+                                np.flip(topo, 0), lat_gd, lon_gd)
+            # cth[np.where(tb2 == miss)] = topo0[np.where(tb2 == miss)]
+            idout = np.where((tb2-273.15 < tbrg[0]) | (tb2-273.15 > tbrg[1]))
+            cth[idout] = topo0[idout]
 
         lt = light.point(lon2, lat2, cth, np.array([-1, 1, 1]))
         if True:
