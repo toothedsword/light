@@ -138,6 +138,7 @@ if True:
     topo = griddata.stb(sn, x42, y42, topo, xo, yo).transpose()
     lon_fy4a = griddata.stb(sn, x42, y42, lon_fy4a, xo, yo)
     lat_fy4a = griddata.stb(sn, x42, y42, lat_fy4a, xo, yo)
+    cth = griddata.stb(sn, x42, y42, cth, xo, yo).transpose()
 
 # imshow total
 # {{{
