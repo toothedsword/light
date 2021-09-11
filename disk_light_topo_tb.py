@@ -184,7 +184,6 @@ def gen_disk_light_topo_tb(infile, rn, outfile, cth_file, log_file, json_file):
     common.write_log(log_file, 'FINISH disk_light_topo_tb')
     out_info = common.OutInfo(json_file)
     out_info.update_file_info(outfile, 'LIGHT', 'R')
-    out_info.update(1, msg)
     return out_info
     # }}}
     
