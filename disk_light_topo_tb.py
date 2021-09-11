@@ -180,6 +180,10 @@ def gen_disk_light_topo_tb(infile, rn, outfile, cth_file, log_file, json_file):
     tb4[:, :, 2] = tb3[:, :, 0]*lt
     cv2.imwrite(outfile, (tb4*255).astype(np.int32))
     common.write_log(log_file, 'FINISH disk_light_topo_tb')
+    out_info = common.OutInfo(json_file)
+    out_info.update_file_info(outfile, 'LIGHT', 'R')
+    out_info.update(1, msg)
+    return out_info
     # }}}
     
 if __name__ == '__main__':
@@ -222,9 +226,8 @@ if __name__ == '__main__':
     try:
         common.write_log(log_file, 'run FRDE')
         t1 = time.process_time()
-        gen_disk_light_topo_tb(infile, rn, out_file, 
-                cth_file, log_file, json_file)
-        out_info = 'Succeed!!!'
+        out_info = gen_disk_light_topo_tb(infile, rn, out_file, 
+                   cth_file, log_file, json_file)
     except Exception as inst:
         # msg = ' '.join(['Fire_Detection:', str(inst.args)])
         msg = traceback.format_exc()  # 捕捉异常消息
