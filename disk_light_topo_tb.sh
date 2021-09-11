@@ -15,4 +15,4 @@ script_name='/disk_light_topo_tb.py'
 script_path=${work_dir}${script_name}
 echo ${script_path}
 
-python3 ${script_path} ${file_4000M} ${output_path} ${resolution} ${json_file} ${log_file}
+python3 ${script_path} ${file_4000M} ${file_cth} ${resolution} ${output_path} ${json_file} ${log_file}
