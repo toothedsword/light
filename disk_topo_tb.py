@@ -148,7 +148,7 @@ rg = [-110+273.15, 50+100+273.15]
 # rg = [-90+273.15, 60+273.15]
 tb3 = num2rgb(tb, ch8, rg)
 
-if False:
+if True:
     tb_nocloud = tb
     tb3_nocloud = num2rgb(tb_nocloud, tcc, [-50+273.15, 20+273.15])
     r = tb3[:,:,0]
@@ -157,10 +157,10 @@ if False:
     rn = tb3_nocloud[:,:,0]
     gn = tb3_nocloud[:,:,1]
     bn = tb3_nocloud[:,:,2]
-    rn[np.where(cth > 0)] = r[np.where(cth > 0)] 
-    gn[np.where(cth > 0)] = g[np.where(cth > 0)] 
-    bn[np.where(cth > 0)] = b[np.where(cth > 0)] 
-# tb3[np.where(tb3_nocloud > 0)] = tb3_nocloud[np.where(tb3_nocloud > 0)]
+    # rn[np.where(cth > 0)] = r[np.where(cth > 0)] 
+    # gn[np.where(cth > 0)] = g[np.where(cth > 0)] 
+    # bn[np.where(cth > 0)] = b[np.where(cth > 0)] 
+    # tb3[np.where(tb3_nocloud > 0)] = tb3_nocloud[np.where(tb3_nocloud > 0)]
     tb3[:,:,0] = rn
     tb3[:,:,1] = gn
     tb3[:,:,2] = bn
