@@ -10,6 +10,7 @@ import griddata
 import sys
 import re
 import common
+import os
 
 
 def gen_ccc(rgb, ns):
@@ -184,7 +185,6 @@ def gen_disk_light_topo_tb(infile, rn, outfile, cth_file, log_file, json_file):
 if __name__ == '__main__':
 
     # read in data
-    # {{{
     
     infile = sys.argv[1]
     cth_file = sys.argv[2]
@@ -201,6 +201,23 @@ if __name__ == '__main__':
     print('output_dir,', output_dir)
     print('json_file,', json_file)
     print('log_file,', log_file)
+    tmp = re.search('FY4A-_AGRI--_N_(....)', infile)
+    reg = tmp.group(1)
+
+    tmp = re.search(r'(\d{4})(\d{2})(\d{2})(\d{6})_(\d{14})', infile)
+    syear = tmp.group(1)
+    smonth = tmp.group(2)
+    sdom = tmp.group(3)
+    shms = tmp.group(4)
+    setime = tmp.group(5)
+
+    out_file = output_dir+'/AGRI/L3/'+reg+'/HHMM/LIGHT-/NOM/' + \
+            syear+'/'+syear+smonth+sdom'/FY4A-_AGRI--_N_DISK_1047E_L3_LIGHT-_MULT_NOM_'+syear+smonth+sdom+shms+'_'+setime+'_4000M_HHMM_ADS_V0001.TIFF'
+    out_path = re.sub(r'[^\/]+$','',out_file)
+    if os.path.exists(out_path):
+        pass
+    else:
+        os.system('mkdir -p ' + out_path)
 
     try:
         common.write_log(log_file, 'run FRDE')
