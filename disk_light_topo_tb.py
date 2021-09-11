@@ -212,7 +212,7 @@ if __name__ == '__main__':
     setime = tmp.group(5)
 
     out_file = output_dir+'/AGRI/L3/'+reg+'/HHMM/LIGHT-/NOM/' + \
-            syear+'/'+syear+smonth+sdom'/FY4A-_AGRI--_N_DISK_1047E_L3_LIGHT-_MULT_NOM_'+syear+smonth+sdom+shms+'_'+setime+'_4000M_HHMM_ADS_V0001.TIFF'
+            syear+'/'+syear+smonth+sdom+'/FY4A-_AGRI--_N_DISK_1047E_L3_LIGHT-_MULT_NOM_'+syear+smonth+sdom+shms+'_'+setime+'_4000M_HHMM_ADS_V0001.TIFF'
     out_path = re.sub(r'[^\/]+$','',out_file)
     if os.path.exists(out_path):
         pass
