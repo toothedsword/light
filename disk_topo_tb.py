@@ -157,14 +157,14 @@ if True:
     rn = tb3_nocloud[:,:,0]
     gn = tb3_nocloud[:,:,1]
     bn = tb3_nocloud[:,:,2]
-    # rn[np.where(cth > 0)] = r[np.where(cth > 0)] 
-    # gn[np.where(cth > 0)] = g[np.where(cth > 0)] 
-    # bn[np.where(cth > 0)] = b[np.where(cth > 0)] 
+    rn[np.where(cth > 0)] = r[np.where(cth > 0)] 
+    gn[np.where(cth > 0)] = g[np.where(cth > 0)] 
+    bn[np.where(cth > 0)] = b[np.where(cth > 0)] 
     # tb3[np.where(tb3_nocloud > 0)] = tb3_nocloud[np.where(tb3_nocloud > 0)]
     tb3[:,:,0] = rn
     tb3[:,:,1] = gn
     tb3[:,:,2] = bn
-    tb3 = tb3_nocloud
+    # tb3 = tb3_nocloud
     print(tb3.shape)
     print(cth.shape)
 
