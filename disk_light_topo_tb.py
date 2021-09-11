@@ -225,7 +225,6 @@ if __name__ == '__main__':
         gen_disk_light_topo_tb(infile, rn, out_file, 
                 cth_file, log_file, json_file)
         out_info = 'Succeed!!!'
-MAIN_FRDE(fy4_4000M, output_dir, json_file, log_file)
     except Exception as inst:
         # msg = ' '.join(['Fire_Detection:', str(inst.args)])
         msg = traceback.format_exc()  # 捕捉异常消息
