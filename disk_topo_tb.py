@@ -136,10 +136,10 @@ if True:
     lat_fy4a = griddata.stb(sn, x42, y42, lat_fy4a, xo, yo)
     cth = griddata.stb(sn, x42, y42, cth, xo, yo).transpose()
 
-# topo[np.where(cth > 0)] = cth[np.where(cth > 0)]
-# topo = topo/1000
-cth = 10-tb/20/100*50
-topo[np.where(tb < -10+273.15)] = cth[np.where(tb < -10+273.15)]
+topo[np.where(cth > 0)] = cth[np.where(cth > 0)]
+topo = topo/1000
+# cth = 10-tb/20/100*50
+# topo[np.where(tb < -10+273.15)] = cth[np.where(tb < -10+273.15)]
 
 # imshow total
 # {{{
