@@ -11,7 +11,7 @@ import sys
 import re
 import common
 import os
-
+import time
 
 def gen_ccc(rgb, ns):
     # {{{
