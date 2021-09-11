@@ -94,6 +94,10 @@ def gen_disk_light_topo_tb(infile, rn, outdir, outfile0, cth_file, log_file, jso
     NOMChannel = f['NOMChannel%s' % (Channel)][:]
     CALChannel = f['CALChannel%s' % (Channel)][:]
     tb = Data_Cal(NOMChannel, CALChannel)
+    bln = f.attrs[u'Begin Line Number'][0]
+    eln = f.attrs[u'End Line Number'][0]
+    bpn = f.attrs[u'Begin Pixel Number'][0]
+    epn = f.attrs[u'End Pixel Number'][0]
     f.close()
     
     if False:
@@ -104,12 +108,18 @@ def gen_disk_light_topo_tb(infile, rn, outdir, outfile0, cth_file, log_file, jso
     f = h5.File(cth_file, 'r')
     cth = f['CTH'][:]
     f.close()
-    
+
+    tb0 = lon_fy4a*0-100
+    tb0[bln:eln+1, bpn:epn+1] = tb
+    tb = tb0
+    cth0 = lon_fy4a*0
+    cth0[bln:eln+1, bpn:epn+1] = cth
+    cth = cth0
+
     f = h5.File('topo_fy4a_4km.nc', 'r')
     topo = f['topo'][:]
     topo = np.flip(topo.T, 0)
     f.close()
-    
     
     # tb[np.where(tb < 50)] = np.nan
     print(tb.dtype)
