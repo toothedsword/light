@@ -225,7 +225,7 @@ if __name__ == '__main__':
         os.system('mkdir -p ' + out_path)
 
     try:
-        common.write_log(log_file, 'run FRDE')
+        common.write_log(log_file, 'run LIGHT')
         t1 = time.process_time()
         out_info = gen_disk_light_topo_tb(infile, rn, out_file, 
                    cth_file, log_file, json_file)

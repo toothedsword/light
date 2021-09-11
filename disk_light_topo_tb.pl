@@ -7,4 +7,4 @@ my $cthfile = '/mnt/fy4data/AGRI/L2/CTH/DISK/NOM/2021/20210910/FY4A-_AGRI--_N_DI
 my $logfile = './1.log';
 my $jsonfile = './1.json';
 
-system("sh disk_light_topo_tb.sh $infile $cthfile $res $outdir $logfile $jsonfile");
+system("sh disk_light_topo_tb.sh $infile $cthfile $res $outdir $jsonfile $logfile");
