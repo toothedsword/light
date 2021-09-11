@@ -220,7 +220,7 @@ if __name__ == '__main__':
 
     out_file0 = '/FY4A/AGRI/L3/'+reg+'/HHMM/LIGHT-/NOM/' + \
             syear+'/'+syear+smonth+sdom+'/FY4A-_AGRI--_N_DISK_1047E_L3_LIGHT-_MULT_NOM_'+syear+smonth+sdom+shms+'_'+setime+'_'+str(int(4/rn))+'000M_HHMM_ADS_V0001.TIFF'
-    out_file = output_dir+outfile0
+    out_file = output_dir+out_file0
     out_path = re.sub(r'[^\/]+$','',out_file)
     if os.path.exists(out_path):
         pass
