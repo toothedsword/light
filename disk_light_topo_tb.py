@@ -77,8 +77,10 @@ def num2rgb(num, ccc, rg):
     pass
 
 
-def gen_disk_light_topo_tb(infile, rn, outfile, cth_file, log_file, json_file):
+def gen_disk_light_topo_tb(infile, rn, outdir, outfile0, cth_file, log_file, json_file):
+
     # {{{
+    outfile = outdir + outfile0
     common.write_log(log_file, 'START disk_light_topo_tb')
     lat_fy4a = gdal.Open(
         './lut4k_1.tif').\
@@ -183,7 +185,7 @@ def gen_disk_light_topo_tb(infile, rn, outfile, cth_file, log_file, json_file):
     cv2.imwrite(outfile, (tb4*255).astype(np.int32))
     common.write_log(log_file, 'FINISH disk_light_topo_tb')
     out_info = common.OutInfo(json_file)
-    out_info.update_file_info(outfile, 'LIGHT', 'R')
+    out_info.update_file_info(outfile0, 'LIGHT', 'R')
     return out_info
     # }}}
     
@@ -216,8 +218,9 @@ if __name__ == '__main__':
     shms = tmp.group(4)
     setime = tmp.group(5)
 
-    out_file = output_dir+'/AGRI/L3/'+reg+'/HHMM/LIGHT-/NOM/' + \
+    out_file0 = '/FY4A/AGRI/L3/'+reg+'/HHMM/LIGHT-/NOM/' + \
             syear+'/'+syear+smonth+sdom+'/FY4A-_AGRI--_N_DISK_1047E_L3_LIGHT-_MULT_NOM_'+syear+smonth+sdom+shms+'_'+setime+'_'+str(int(4/rn))+'000M_HHMM_ADS_V0001.TIFF'
+    out_file = output_dir+outfile0
     out_path = re.sub(r'[^\/]+$','',out_file)
     if os.path.exists(out_path):
         pass
@@ -227,7 +230,7 @@ if __name__ == '__main__':
     try:
         common.write_log(log_file, 'run LIGHT')
         t1 = time.process_time()
-        out_info = gen_disk_light_topo_tb(infile, rn, out_file, 
+        out_info = gen_disk_light_topo_tb(infile, rn, output_dir, out_file0, 
                    cth_file, log_file, json_file)
     except Exception as inst:
         # msg = ' '.join(['Fire_Detection:', str(inst.args)])
