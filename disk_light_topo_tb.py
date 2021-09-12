@@ -138,7 +138,7 @@ def gen_disk_light_topo_tb(infile, rn, outdir, outfile0, cth_file, log_file, jso
         xo = np.linspace(0, 10, num=2748*rn)
         yo = np.linspace(0, 10, num=2748*rn)
         # id = np.where((tb > 0) & (lon_fy4a > -190) & (lat_fy4a > -100))
-        sn = 4
+        sn = 8
         tb = griddata.stb(sn, x42, y42, tb, xo, yo).transpose()
         topo = griddata.stb(sn, x42, y42, topo, xo, yo).transpose()
         lon_fy4a = griddata.stb(sn, x42, y42, lon_fy4a, xo, yo)

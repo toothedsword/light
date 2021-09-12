@@ -8,7 +8,3 @@ my $logfile = './1.log';
 my $jsonfile = './1.json';
 
 system("sh disk_light_topo_tb.sh $infile $cthfile $res $outdir $jsonfile $logfile");
-
-
-
-
