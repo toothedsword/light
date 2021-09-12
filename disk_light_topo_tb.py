@@ -138,7 +138,9 @@ def gen_disk_light_topo_tb(infile, rn, outdir, outfile0, cth_file, log_file, jso
         xo = np.linspace(0, 10, num=2748*rn)
         yo = np.linspace(0, 10, num=2748*rn)
         # id = np.where((tb > 0) & (lon_fy4a > -190) & (lat_fy4a > -100))
-        sn = 8
+        sn = 4
+        if rn > 2:
+            sn = 8
         tb = griddata.stb(sn, x42, y42, tb, xo, yo).transpose()
         topo = griddata.stb(sn, x42, y42, topo, xo, yo).transpose()
         lon_fy4a = griddata.stb(sn, x42, y42, lon_fy4a, xo, yo)
@@ -209,8 +211,7 @@ if __name__ == '__main__':
     output_dir = sys.argv[4]
     json_file = sys.argv[5]
     log_file = sys.argv[6]
-    
-    
+
     # 接口参数
     print('******************************************************')
     print('fy4_4000M,', infile)
@@ -229,7 +230,9 @@ if __name__ == '__main__':
     setime = tmp.group(5)
 
     out_file0 = '/FY4A/AGRI/L3/'+reg+'/HHMM/LIGHT-/NOM/' + \
-            syear+'/'+syear+smonth+sdom+'/FY4A-_AGRI--_N_'+reg+'_1047E_L3_LIGHT-_MULT_NOM_'+syear+smonth+sdom+shms+'_'+setime+'_'+str(int(4/rn))+'000M_HHMM_ADS_V0001.TIFF'
+            syear+'/'+syear+smonth+sdom+'/FY4A-_AGRI--_N_'+reg+\
+            '_1047E_L3_LIGHT-_MULT_NOM_'+syear+smonth+sdom+shms+\
+            '_'+setime+'_'+str(int(4/rn))+'000M_HHMM_ADS_V0001.TIFF'
     out_file = output_dir+out_file0
     out_path = re.sub(r'[^\/]+$','',out_file)
     if os.path.exists(out_path):
