@@ -70,7 +70,7 @@ while t <= t1:
         lon2, lat2, tb2, tb3, tb4, lat_fy4a, lon_fy4a, ccc = \
             FY4A_FIG.get_tb3(t, lonlim, latlim, addlight=True,
                              lighttype=lighttype, ctype='topocth',
-                             tbrg=[-400, -17], miss=40)
+                             tbrg=[-400, -7], miss=40)
 
         pn = np.sum(tb2 > 50)/np.sum(lon2 > -360)*100
         spn = str(int(pn))
