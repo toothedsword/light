@@ -65,7 +65,7 @@ while t <= t1:
     ext = 0
     if len(fignames) > 0 and False:
         pass
-        t = t+60*60
+        t = t+1*60
         continue
 
     try:
@@ -127,5 +127,5 @@ while t <= t1:
     else:
         print('succeed')
 
-    t = t+60*60
+    t = t+1*60
     # }}}
